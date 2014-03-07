@@ -1,0 +1,9 @@
+ul.ph-long-list {
+	font-size: 0.6em;
+	line-height: 1.2em;
+}
+
+li.ph-built-asset, ul.ph-built-asset > li {
+	color: #ff0000;
+}
+

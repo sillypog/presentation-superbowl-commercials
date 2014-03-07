@@ -1,1 +1,38 @@
-["index.md"]
+[
+    "index.md",
+    "minimally-invasive.html",
+    "check-it-out.html",
+    {
+        "filename": "npm-install.html",
+        "attr": {
+            "data-background": "#4d7e65"
+        }
+    },
+    "build-it.html",
+    "postinstall-hooks.html",
+    {
+        "filename": "bower.html",
+        "attr": {
+            "data-background": "images/bower-logo.png"
+        }
+    },
+    "bowerjson.html",
+    "bower-helped-me.html",
+    "bower-did-not-help-me.html",
+    {
+        "filename": "grunt.html",
+        "attr": {
+            "data-background": "images/grunt-logo.png"
+        }
+    },
+    "gruntfilejs.html",
+    "grunt-asset-packager.html",
+    "grunt-modernizr.html",
+    {
+        "filename": "yeoman.html",
+        "attr": {
+            "data-background": "images/yeoman-logo.png"
+        }
+    },
+    "generator-sillypog.html"
+]

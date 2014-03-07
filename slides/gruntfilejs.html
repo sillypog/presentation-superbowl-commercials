@@ -1,0 +1,184 @@
+<h2>Gruntfile.js</h2>
+
+<pre>
+	<code class="javascript">
+module.exports = function(grunt){
+
+  // Project configuration.
+  grunt.initConfig({
+    pkg: grunt.file.readJSON('package.json'),
+    concat: {
+      css: {
+        options: {
+          separator: '\n\n',
+          process: {
+            data: {
+              cssroot: '<%= process.env.NODE_ENV == "DEVELOPMENT" ? ".." : "http://cdn.bleacherreport.net/images/sites/super-bowl-commercials/v1" %>',
+              fontroot: '<%= process.env.NODE_ENV == "DEVELOPMENT" ? ".." : ""'
+            }
+          }
+        },
+        src: ['bower_components/fancybox/source/jquery.fancybox.css', 'src/stylesheets/*.css'],
+        dest: 'build/<%= pkg.name %>.css'
+      }
+    },
+    copy: {
+      main: {
+        files: [
+          { cwd: 'bower_components/fancybox/source/', src: ['*.gif', '*.png'], dest: 'build/', filter: 'isFile', expand:true},
+          { src: 'bower_components/jquery/jquery.min.js', dest: 'build/jquery.js' },
+          { src: 'src/partials/analytics/omniture.js', dest: 'build/omniture.js' },
+          { cwd: 'src/assets', src: ['**/*.*'], dest: 'build', expand: true }
+        ]
+      },
+      deploy: {
+        files: [
+          { cwd: 'build', src: ['**/*.*'], dest: '../../public/super-bowl-commercials', expand: true }
+        ]
+      }
+    },
+    watch: {
+      files: ['src/**/*.*', 'Gruntfile.js'],
+      tasks: ['dev']
+    },
+    connect: {
+      server: {
+        options: {
+          port: 9001,
+          keepalive: true,
+          hostname: '',
+          base: 'build'
+        }
+      }
+    },
+    clean: {
+      options: {
+        force: true
+      },
+      build: ['build'],
+      deploy: ['../../public/super-bowl-commercials']
+    },
+    asset_packager: {
+      options: {
+        index: 'src/index.html',
+        dest: 'build',
+      },
+      dev: {
+        options: {
+          process: {
+            data: {
+              env: 'DEVELOPMENT'
+            }
+          }
+        },
+        files: [
+          { src: ['src/asset_packages/**/*.pkg'], expand: true }
+        ]
+      },
+      prod: {
+        options: {
+          process: {
+            data: {
+              env: 'PRODUCTION'
+            }
+          }
+        },
+        files: [
+          { src: ['src/asset_packages/**/*.pkg'], expand: true }
+        ]
+      }
+    },
+    env: {
+      dev: { NODE_ENV: 'DEVELOPMENT' },
+      prod: { NODE_ENV: 'PRODUCTION' }
+    },
+    modernizr: {
+      devFile: "remote",
+      outputFile: "build/modernizr.js",
+      uglify: true,
+      extra: {
+        "shiv": false,
+        "load": false
+      },
+      parseFiles: true,
+      files: ['build/**/*.*']
+    },
+    csslint:
+    {
+      src: ['src/stylesheets/style.css'],
+      options:
+      {
+        'adjoining-classes': false,
+        'box-model': false,
+        'box-sizing': false,
+        'compatible-vendor-prefixes': false,
+        'duplicate-background-images': false,
+        'floats': false,
+        'font-sizes': false,
+        'ids': false,
+        'important': false,
+        'qualified-headings': false,
+        'unique-headings': false
+      }
+    },
+    imagemin:
+    {
+      imagemin:
+      {
+        files:
+        [
+          {
+            cwd: '../../public/super-bowl-commercials',
+            dest: '../../public/super-bowl-commercials',
+            expand: true,
+            src: ['**/*.{gif,jpg,png}']
+          }
+        ],
+        options: { 'pngquant': true }
+      }
+    },
+    autoprefixer:
+    {
+      autoprefixer:
+      {
+        src: ['build/super-bowl-commercials.css'],
+        options:
+        {
+          browsers: ['last 2 versions', 'ie > 7']
+        }
+      }
+    },
+    cssmin:
+    {
+      cssmin:
+      {
+        files:
+        [
+          {
+            dest: 'build',
+            expand: true,
+            flatten: true,
+            src: ['build/super-bowl-commercials.css']
+          }
+        ]
+      }
+    }
+  });
+
+  // load all npm grunt tasks
+  require('load-grunt-tasks')(grunt);
+
+  // Default task(s).
+  grunt.registerTask('common', ['concat:css', 'copy:main']);
+
+  grunt.registerTask('dev', ['env:dev', 'asset_packager:dev', 'common']);
+  grunt.registerTask('prod', ['env:prod', 'clean', 'asset_packager:prod', 'common', 'modernizr', 'autoprefixer', 'cssmin', 'copy:deploy']);
+
+  grunt.registerTask('default', ['clean', 'dev', 'modernizr', 'watch']);
+
+  grunt.registerTask('validation', ['csslint']);
+};
+	</code>
+</pre>
+
+<a href="https://github.com/br/breport/blob/master/sites/super-bowl-commercials/Gruntfile.js" target="_blank">View on Github</a>
