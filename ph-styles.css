@@ -3,7 +3,11 @@ ul.ph-long-list {
 	line-height: 1.2em;
 }
 
+ul.ph-long-list {
+	color: #999999;
+}
+
 li.ph-built-asset, ul.ph-built-asset > li {
-	color: #ff0000;
+	color: #000000;
 }
 

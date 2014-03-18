@@ -29,10 +29,22 @@
     "grunt-asset-packager.html",
     "grunt-modernizr.html",
     {
+        "filename": "how-can-i-get-in-on-this.html",
+        "attr": {
+            "data-background": "#f7e988"
+        }
+    },
+    {
         "filename": "yeoman.html",
         "attr": {
             "data-background": "images/yeoman-logo.png"
         }
     },
-    "generator-sillypog.html"
+    "generator-sillypog.html",
+    {
+        "filename": "yo-sillypog.html",
+        "attr": {
+            "data-background": "#4d7e65"
+        }
+    }
 ]
